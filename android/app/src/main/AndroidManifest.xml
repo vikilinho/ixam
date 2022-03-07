@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ixam">
+    package="com.ixampro.ixam">
    <application
         android:label="ixam"
         android:name="${applicationName}"
