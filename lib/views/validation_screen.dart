@@ -10,7 +10,9 @@ import 'package:ixam/components/components.dart';
 import 'package:ixam/models/accreditation.dart';
 import 'package:ixam/models/constants.dart';
 import 'package:ixam/views/home_screen.dart';
+import 'package:ixam/views/signature.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:signature/signature.dart';
 
 class NewValidationScreen extends StatefulWidget {
   @override
@@ -50,7 +52,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
@@ -264,19 +266,32 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-
-                                Text(
-                                  "Promotional Exam\nAccreditation Tag 2021",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.green),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.14,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
+                                      child: Image.asset("images/flogo.png")),
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Text(
+                                    "Promotional Exam\nAccreditation Tag 2021",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.green),
+                                  ),
                                 ),
                               ],
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -292,13 +307,9 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                               ],
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.height * 0.06,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5.0),
+                                Flexible(
                                   child: Text(
                                     mybody.response.firstName +
                                         " " +
@@ -307,7 +318,9 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                         mybody.response.lastName,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.018,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -318,24 +331,26 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 5.0),
-                                  child: Text(
-                                    "Exam No:",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                Text(
+                                  "Exam No:",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                Text(
-                                  mybody.response.examNo,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w600,
+                                Flexible(
+                                  child: Text(
+                                    mybody.response.examNo,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -413,6 +428,8 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                 ],
                               ),
                             ),
+                            ElevatedButton(
+                                onPressed: () {}, child: Text("Sign In")),
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),
@@ -493,7 +510,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
         Get.defaultDialog(
             title: "",
             content: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.75,
+              height: MediaQuery.of(context).size.height * 0.79,
               width: MediaQuery.of(context).size.width * 0.9,
               child: Column(
                 children: [
@@ -514,19 +531,32 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(
-                                  "Promotional Exam\nAccreditation Tag 2021",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.green),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.14,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
+                                      child: Image.asset("images/flogo.png")),
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Text(
+                                    "Promotional Exam\nAccreditation Tag 2021",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.green),
+                                  ),
                                 ),
                               ],
                             ),
-
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -541,15 +571,10 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                     ))
                               ],
                             ),
-
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.height * 0.06,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5.0),
+                                Flexible(
                                   child: Text(
                                     mybody.response.firstName +
                                         " " +
@@ -558,7 +583,9 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                         mybody.response.lastName,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.018,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -569,30 +596,29 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 5.0),
+                                Text(
+                                  "Exam No:",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Flexible(
                                   child: Text(
-                                    "Exam No:",
+                                    mybody.response.examNo,
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
+                                      color: Colors.red,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  mybody.response.examNo,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
                               ],
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -632,65 +658,57 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                 )
                               ],
                             ),
-                            Expanded(
-                              flex: 4,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 25.0),
-                                    child: Text(
-                                      mybody.response.serialNo,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 25.0),
+                                  child: Text(
+                                    mybody.response.serialNo,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.height *
-                                        0.01,
-                                  ),
-                                  Text("Signature",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                      )),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.height *
-                                        0.01,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                Text("Signature",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                ),
+                              ],
                             ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Get.to(SignatureScreen());
+                                },
+                                child: Text("Sign In")),
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 4,
-                                    child: Text("Only Valid for 1 Exam",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                        )),
+                            Column(
+                              children: [
+                                Text("Only Valid for 1 Exam",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                Text(
+                                  "© iXam Portal",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  Expanded(
-                                    flex: 4,
-                                    child: Text(
-                                      "© iXam Portal",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             )
                           ]),
                     ),
