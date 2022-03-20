@@ -429,34 +429,31 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                               ),
                             ),
                             ElevatedButton(
-                                onPressed: () {}, child: Text("Sign In")),
+                                onPressed: () {
+                                  Get.to(SignatureScreen());
+                                },
+                                child: Text("Sign In")),
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 4,
-                                    child: Text("Only Valid for 1 Exam",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                        )),
-                                  ),
-                                  Expanded(
-                                    flex: 4,
-                                    child: Text(
-                                      "© iXam Portal",
+                            Column(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: Text("Only Valid for 1 Exam",
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                                      )),
+                                ),
+                                Text(
+                                  "© iXam Portal",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              ],
                             )
                           ]),
                     ),

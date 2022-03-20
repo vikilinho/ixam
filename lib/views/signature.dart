@@ -21,9 +21,9 @@ class SignatureScreen extends StatefulWidget {
 
 class _SignatureScreenState extends State<SignatureScreen> {
   final SignatureController _controller = SignatureController(
-    penStrokeWidth: 1,
-    penColor: Colors.red,
-    exportBackgroundColor: Colors.blue,
+    penStrokeWidth: 2,
+    penColor: Colors.black,
+    exportBackgroundColor: Colors.white,
     onDrawStart: () => print('onDrawStart called!'),
     onDrawEnd: () => print('onDrawEnd called!'),
   );
@@ -100,11 +100,17 @@ class _SignatureScreenState extends State<SignatureScreen> {
         child: ListView(
           children: <Widget>[
             //SIGNATURE CANVAS
-
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+            Text("Please sign in the\n white space below",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black)),
             Signature(
               controller: _controller,
-              height: MediaQuery.of(context).size.height * 0.8,
-              backgroundColor: Colors.grey,
+              height: MediaQuery.of(context).size.height * 0.7,
+              backgroundColor: Colors.white,
             ),
             //OK AND CLEAR BUTTONS
             Container(
@@ -134,7 +140,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                               title: "Your Signature",
                               content: SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.5,
+                                      MediaQuery.of(context).size.height * 0.4,
                                   width:
                                       MediaQuery.of(context).size.width * 0.7,
                                   child: Container(
@@ -160,7 +166,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                                             //     label: Text("Back")),
                                             ElevatedButton(
                                               onPressed: () {
-                                                // _upload();
+                                                Get.to(NewValidationScreen());
                                               },
                                               child: Text("Save"),
                                             ),
