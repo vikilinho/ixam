@@ -69,20 +69,20 @@ class Response {
   DateTime updatedAt;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
-        candidateId: json["candidateId"],
-        userId: json["userId"],
-        examNo: json["examNo"],
-        serialNo: json["serialNo"],
-        qrCodeUrl: json["qrCodeURL"],
+        candidateId: json["candidateId"]?? "",
+        userId: json["userId"]?? "",
+        examNo: json["examNo"]?? "",
+        serialNo: json["serialNo"]?? "",
+        qrCodeUrl: json["qrCodeURL"]?? "",
         signatureUrl: json["signatureURL"]?? "https://www.mymailhouse.net/images/Email_Tiles-02.png",
-        passportUrl: json["passportURL"],
-        emailAddress: json["emailAddress"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        middleName: json["middleName"],
-        passwordChanged: json["passwordChanged"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        passportUrl: json["passportURL"]?? "",
+        emailAddress: json["emailAddress"]?? "",
+        firstName: json["firstName"]?? "",
+        lastName: json["lastName"]?? "",
+        middleName: json["middleName"]?? "",
+        passwordChanged: json["passwordChanged"]?? "",
+        createdAt: DateTime.parse(json["createdAt"]?? ""),
+        updatedAt: DateTime.parse(json["updatedAt"]?? ""),
       );
 
   Map<String, dynamic> toJson() => {
