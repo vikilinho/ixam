@@ -24,6 +24,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
   String? controlNumber = "";
   String newValue = "";
 
+
   TextEditingController _examController = TextEditingController();
   var examNo;
 
@@ -240,6 +241,8 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
     switch (response.statusCode) {
       case 200:
         var mybody = Accreditation.fromJson(jsonDecode(response.body));
+        print(mybody.response.signatureUrl);
+
         print(response.statusCode);
 
         Get.defaultDialog(
@@ -274,7 +277,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                               0.14,
                                       width: MediaQuery.of(context).size.width *
                                           0.5,
-                                      child: Image.asset("images/flogo.png")),
+                                      child:  Image.asset("images/flogo.png")),
                                 ),
                                 Flexible(
                                   flex: 2,
@@ -383,12 +386,13 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                     height: MediaQuery.of(context).size.height *
                                         0.15,
                                     width:
-                                        MediaQuery.of(context).size.width * 0.5,
+                                    MediaQuery.of(context).size.width * 0.5,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       image: DecorationImage(
-                                        image: NetworkImage(
-                                            mybody.response.signatureUrl),
+
+                                        image: NetworkImage(mybody.response.signatureUrl),
+
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -501,6 +505,10 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
     switch (response.statusCode) {
       case 200:
         var mybody = Accreditation.fromJson(jsonDecode(response.body));
+        print(mybody.response.candidateId);
+
+        var candidateID =
+            prefs.setInt('candidateID', mybody.response.candidateId);
         print(response.statusCode);
         print("I am here");
 
@@ -642,12 +650,13 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                     height: MediaQuery.of(context).size.height *
                                         0.15,
                                     width:
-                                        MediaQuery.of(context).size.width * 0.5,
+                                    MediaQuery.of(context).size.width * 0.5,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       image: DecorationImage(
-                                        image: NetworkImage(
-                                            mybody.response.signatureUrl),
+
+                                        image: NetworkImage(mybody.response.signatureUrl),
+
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -732,6 +741,6 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
           colorText: Colors.white, backgroundColor: Colors.pinkAccent);
       print(response.statusCode);
     }
-    throw Exception('Failed to to get user details');
+    throw Get.snackbar("Error", "Failed to get user details");
   }
 }

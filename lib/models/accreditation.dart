@@ -34,6 +34,8 @@ class Accreditation {
 }
 
 class Response {
+
+
   Response({
     required this.candidateId,
     required this.userId,
@@ -72,7 +74,7 @@ class Response {
         examNo: json["examNo"],
         serialNo: json["serialNo"],
         qrCodeUrl: json["qrCodeURL"],
-        signatureUrl: json["signatureURL"],
+        signatureUrl: json["signatureURL"]?? "https://www.mymailhouse.net/images/Email_Tiles-02.png",
         passportUrl: json["passportURL"],
         emailAddress: json["emailAddress"],
         firstName: json["firstName"],

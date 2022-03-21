@@ -9,6 +9,7 @@ import 'package:ixam/components/components.dart';
 
 import 'package:ixam/models/constants.dart';
 import 'package:ixam/views/validation_screen.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
 
@@ -27,7 +28,6 @@ class _SignatureScreenState extends State<SignatureScreen> {
     onDrawStart: () => print('onDrawStart called!'),
     onDrawEnd: () => print('onDrawEnd called!'),
   );
-  late File file;
 
   // void _upload() {
   //   if (file == null) return;
@@ -43,33 +43,45 @@ class _SignatureScreenState extends State<SignatureScreen> {
   //   //   print(err);
   //   // });
   // }
+  late File mysignature;
 
   Future<String> sendImage(File file) async {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return ProgressBar(message: "Uploading image...");
+          return ProgressBar(message: "Uploading signature...");
         });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
+    var candidateID = prefs.getInt('candidateID');
+    print(candidateID);
     String fileName = file.path.split('/').last;
     FormData formData = FormData.fromMap({
-      "CustomerProfilePicture":
+      "CandidateID": candidateID,
+      "SignInSignature":
           await MultipartFile.fromFile(file.path, filename: fileName),
     });
-    Response response = await Dio().put(
-      '$BASE_URL/Customers/Picture',
+    print("I am here now");
+    print(fileName);
+    Response response = await Dio().delete(
+      '$BASE_URL/Accreditation/candidate-signin',
       data: formData,
-      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      options: Options(
+          followRedirects: false,
+          // will not throw errors
+          validateStatus: (status) => true,
+          headers: {'Authorization': 'Bearer $token'}),
     );
+    print("Didn't get here");
+
     Navigator.pop(context);
     if (response.statusCode == 200) {
       _showSnakBarMsg("Signature Saved!");
     } else {
-      print(response.statusCode);
+      print("my response ==> ${response.statusCode}");
     }
-    return "nothing";
+    return response.statusMessage.toString();
   }
 
   void _showSnakBarMsg(String msg) {
@@ -127,15 +139,13 @@ class _SignatureScreenState extends State<SignatureScreen> {
                     onPressed: () async {
                       if (_controller.isNotEmpty) {
                         final Uint8List? data = await _controller.toPngBytes();
+                        // final Uint8List? data = await _controller.toPngBytes();
+                        final tempDir = await getTemporaryDirectory();
+                        mysignature =
+                            await new File('${tempDir.path}/signature.png')
+                              ..writeAsBytesSync(data!);
 
                         if (data != null) {
-                          setState(() {
-                            // file = File(
-                            //   '${(Directory.systemTemp).path}/signature.png',
-                            // );
-                            // file.writeAsBytesSync(data);
-                            // file = data as File;
-                          });
                           await Get.defaultDialog(
                               title: "Your Signature",
                               content: SizedBox(
@@ -167,6 +177,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                                             ElevatedButton(
                                               onPressed: () {
                                                 Get.to(NewValidationScreen());
+                                                sendImage(mysignature);
                                               },
                                               child: Text("Save"),
                                             ),
