@@ -8,9 +8,11 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ixam/components/components.dart';
 import 'package:ixam/models/accreditation.dart';
+import 'package:ixam/models/attender.dart';
 import 'package:ixam/models/constants.dart';
 import 'package:ixam/views/home_screen.dart';
 import 'package:ixam/views/signature.dart';
+import 'package:ixam/views/signout_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
 
@@ -23,6 +25,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
   // var output = "";
   String? controlNumber = "";
   String newValue = "";
+  int? attendance;
 
 
   TextEditingController _examController = TextEditingController();
@@ -219,7 +222,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
 
   //The method for validating the card... once user scan the card
 
-  Future<Accreditation> scanCard() async {
+  Future<AttendantCard> scanCard() async {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -240,8 +243,14 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
     Navigator.pop(context);
     switch (response.statusCode) {
       case 200:
-        var mybody = Accreditation.fromJson(jsonDecode(response.body));
+        var mybody = AttendantCard.fromJson(jsonDecode(response.body));
         print(mybody.response.signatureUrl);
+        attendance = mybody.response.attendance.attendanceId;
+        print(attendance);
+
+
+        var candidateID =
+        prefs.setInt('candidateID', mybody.response.candidateId);
 
         print(response.statusCode);
 
@@ -432,11 +441,15 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                 ],
                               ),
                             ),
-                            ElevatedButton(
+                           attendance ==null ? ElevatedButton(
                                 onPressed: () {
                                   Get.to(SignatureScreen());
                                 },
-                                child: Text("Sign In")),
+                                child: Text("Sign In")) : ElevatedButton(
+                               onPressed: () {
+                                 Get.to(SignoutScreen());
+                               },
+                               child: Text("Sign Out")) ,
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),
@@ -485,7 +498,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
   }
 
   //Method that validate exam number
-  Future<Accreditation> validateNumber() async {
+  Future<AttendantCard> validateNumber() async {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -504,12 +517,16 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
     Navigator.pop(context);
     switch (response.statusCode) {
       case 200:
-        var mybody = Accreditation.fromJson(jsonDecode(response.body));
+        var mybody = AttendantCard.fromJson(jsonDecode(response.body));
         print(mybody.response.candidateId);
+        attendance = mybody.response.attendance.attendanceId;
+        print(attendance);
 
         var candidateID =
             prefs.setInt('candidateID', mybody.response.candidateId);
         print(response.statusCode);
+
+
         print("I am here");
 
         Get.defaultDialog(
@@ -692,11 +709,15 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                 ),
                               ],
                             ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  Get.to(SignatureScreen());
-                                },
-                                child: Text("Sign In")),
+                        attendance ==null ? ElevatedButton(
+                            onPressed: () {
+                              Get.to(SignatureScreen());
+                            },
+                            child: Text("Sign In")) : ElevatedButton(
+                            onPressed: () {
+                              Get.to(SignoutScreen());
+                            },
+                            child: Text("Sign Out")) ,
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),

@@ -14,14 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
 
 
-class SignatureScreen extends StatefulWidget {
-  const SignatureScreen({Key? key}) : super(key: key);
+class SignoutScreen extends StatefulWidget {
+  const SignoutScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignatureScreen> createState() => _SignatureScreenState();
+  State<SignoutScreen> createState() => _SignoutScreenState();
 }
 
-class _SignatureScreenState extends State<SignatureScreen> {
+class _SignoutScreenState extends State<SignoutScreen> {
   final SignatureController _controller = SignatureController(
     penStrokeWidth: 2,
     penColor: Colors.black,
@@ -30,7 +30,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
     onDrawEnd: () => print('onDrawEnd called!'),
   );
 
-
+ 
 
 
   late File mysignature;
@@ -38,7 +38,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
 
 
 
-  Future<String> sendImage(File file) async {
+  Future<String> sendSignature(File file) async {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -62,7 +62,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
     print("I am here now");
     print(fileName);
     Response response = await Dio().post(
-      '$BASE_URL/Accreditation/candidate-signin',
+      '$BASE_URL/Accreditation/candidate-signout',
       data: formData,
       options: Options(
           contentType: 'multipart/form-data',
@@ -79,14 +79,18 @@ class _SignatureScreenState extends State<SignatureScreen> {
 
     Navigator.pop(context);
     if (response.statusCode == 200) {
+        Get.snackbar("Successful", response.statusMessage.toString(),
+        backgroundColor: Colors.green, colorText: Colors.white);
+        Get.to(NewValidationScreen());
 
-      Get.snackbar("Successful", response.statusMessage.toString(),
-          backgroundColor: Colors.green, colorText: Colors.white);
-      Get.to(NewValidationScreen());
+
     } else {
       print("my response ==> ${response.statusCode}");
     }
-
+    // var attendanceID =
+    // response.data["response"]["attendance"];
+    // print(attendanceID);
+    // prefs.setString("attended", attendanceID);
     return response.statusMessage.toString();
   }
 
@@ -134,33 +138,21 @@ class _SignatureScreenState extends State<SignatureScreen> {
                       if (_controller.isNotEmpty) {
                         final Uint8List? data = await _controller.toPngBytes();
 
-                      // void  uploadFile() async {
-                      //   SharedPreferences prefs = await SharedPreferences.getInstance();
-                      //   String? token = prefs.getString('token');
-                      //   var candidateID = prefs.getInt('candidateID');
-                      //     var postUri = Uri.parse("<APIUrl>");
-                      //     var request = new http.MultipartRequest("POST", postUri);
-                      //     request.fields['SignInSignature'] = "signature.png";
-                      //     request.files.add(new http.MultipartFile.fromBytes('file', await File.fromRawPath(data!).readAsBytes(), ));
-                      //
-                      //     request.send().then((response) {
-                      //       if (response.statusCode == 200) print("Uploaded!");
-                      //     });
-                      //   }
+
 
                         final tempDir = await getTemporaryDirectory();
                         mysignature =
-                            await new File('${tempDir.path}/signature.png')
-                              ..writeAsBytesSync(data!);
+                        await new File('${tempDir.path}/signature.png')
+                          ..writeAsBytesSync(data!);
 
                         if (data != null) {
                           await Get.defaultDialog(
                               title: "Your Signature",
                               content: SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                  MediaQuery.of(context).size.height * 0.4,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.7,
+                                  MediaQuery.of(context).size.width * 0.7,
                                   child: Container(
                                     padding: const EdgeInsets.all(8),
                                     child: Column(
@@ -174,7 +166,7 @@ class _SignatureScreenState extends State<SignatureScreen> {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                           children: [
                                             // ElevatedButton.icon(
                                             //     onPressed: () {
@@ -184,8 +176,8 @@ class _SignatureScreenState extends State<SignatureScreen> {
                                             //     label: Text("Back")),
                                             ElevatedButton(
                                               onPressed: () {
-
-                                                sendImage(mysignature);
+                                               print("Send Signature is called");
+                                                sendSignature(mysignature);
                                               },
                                               child: Text("Save"),
                                             ),
