@@ -79,7 +79,7 @@ class _SignoutScreenState extends State<SignoutScreen> {
 
     Navigator.pop(context);
     if (response.statusCode == 200) {
-        Get.snackbar("Successful", response.statusMessage.toString(),
+        Get.snackbar("Successful", "Signed out Successfully",
         backgroundColor: Colors.green, colorText: Colors.white);
         Get.to(NewValidationScreen());
 

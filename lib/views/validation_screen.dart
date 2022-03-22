@@ -25,7 +25,8 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
   // var output = "";
   String? controlNumber = "";
   String newValue = "";
-  int? attendance;
+  var attendance;
+  bool? attended = false;
 
 
   TextEditingController _examController = TextEditingController();
@@ -245,8 +246,16 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
       case 200:
         var mybody = AttendantCard.fromJson(jsonDecode(response.body));
         print(mybody.response.signatureUrl);
-        attendance = mybody.response.attendance.attendanceId;
-        print(attendance);
+        var  myb =  json.decode(response.body);
+        print(myb['response']['attendance']);
+
+        attendance = myb['response']['attendance'];
+        if(attendance != null ) {
+          if ( attendance["signOutSignatureURL"] != null ) {
+            attended = true;
+          }
+        }
+
 
 
         var candidateID =
@@ -441,15 +450,21 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                 ],
                               ),
                             ),
-                           attendance ==null ? ElevatedButton(
+                            if (attendance ==null) ElevatedButton(
                                 onPressed: () {
                                   Get.to(SignatureScreen());
                                 },
-                                child: Text("Sign In")) : ElevatedButton(
-                               onPressed: () {
-                                 Get.to(SignoutScreen());
-                               },
-                               child: Text("Sign Out")) ,
+                                child: Text("Sign In"))
+                            else if(attendance!=null && attended ==false) ElevatedButton(
+                                onPressed: () {
+                                  Get.to(SignoutScreen());
+                                },
+                                child: Text("Sign Out")) else  Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text("Attendance Marked", style: TextStyle(
+                                  color: Colors.green
+                              ),),
+                            ),
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),
@@ -498,7 +513,7 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
   }
 
   //Method that validate exam number
-  Future<AttendantCard> validateNumber() async {
+  Future<Accreditation> validateNumber() async {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -517,14 +532,25 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
     Navigator.pop(context);
     switch (response.statusCode) {
       case 200:
-        var mybody = AttendantCard.fromJson(jsonDecode(response.body));
+        var mybody = Accreditation.fromJson(jsonDecode(response.body));
         print(mybody.response.candidateId);
-        attendance = mybody.response.attendance.attendanceId;
-        print(attendance);
+        // attendance = mybody.response.attendance.attendanceId;
 
+    var  myb =  json.decode(response.body);
+        print(myb['response']['attendance']);
+
+       attendance = myb['response']['attendance'];
+       if(attendance != null ) {
+        if ( attendance["signOutSignatureURL"] != null ) {
+          attended = true;
+        }
+       }
+       print(attendance);
         var candidateID =
             prefs.setInt('candidateID', mybody.response.candidateId);
         print(response.statusCode);
+
+        // print(response.body);
 
 
         print("I am here");
@@ -709,15 +735,23 @@ class _NewValidationScreenState extends State<NewValidationScreen> {
                                 ),
                               ],
                             ),
-                        attendance ==null ? ElevatedButton(
+
+                        if (attendance ==null) ElevatedButton(
                             onPressed: () {
                               Get.to(SignatureScreen());
                             },
-                            child: Text("Sign In")) : ElevatedButton(
+                            child: Text("Sign In"))
+                        else if(attendance!=null && attended ==false) ElevatedButton(
                             onPressed: () {
                               Get.to(SignoutScreen());
                             },
-                            child: Text("Sign Out")) ,
+                            child: Text("Sign Out")) else  Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text("Attendance Marked", style: TextStyle(
+                                color: Colors.green
+                              ),),
+                            ),
+
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.02,
                             ),

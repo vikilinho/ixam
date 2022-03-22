@@ -70,7 +70,7 @@ class Response {
     qrCodeUrl: json["qrCodeURL"],
     signatureUrl: json["signatureURL"]?? "https://www.mymailhouse.net/images/Email_Tiles-02.png",
     passportUrl: json["passportURL"]?? "",
-    attendance: Attendance.fromJson(json["attendance"]?? "SignIn"),
+    attendance: Attendance.fromJson(json["attendance"]),
     firstName: json["firstName"],
     lastName: json["lastName"],
     middleName: json["middleName"]?? "",

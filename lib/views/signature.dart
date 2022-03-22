@@ -80,12 +80,13 @@ class _SignatureScreenState extends State<SignatureScreen> {
     Navigator.pop(context);
     if (response.statusCode == 200) {
 
-      Get.snackbar("Successful", response.statusMessage.toString(),
+      Get.snackbar("Successful", "Signed in Successfully",
           backgroundColor: Colors.green, colorText: Colors.white);
       Get.to(NewValidationScreen());
     } else {
       print("my response ==> ${response.statusCode}");
     }
+   print(response.data);
 
     return response.statusMessage.toString();
   }
